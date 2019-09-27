@@ -2,13 +2,14 @@ package tellh.com.recyclertreeview_lib;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,6 +55,7 @@ public class TreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return displayNodes.get(position).getContent().getLayoutId();
     }
 
+    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
@@ -68,15 +70,13 @@ public class TreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
-        if (payloads != null && !payloads.isEmpty()) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if (!payloads.isEmpty()) {
             Bundle b = (Bundle) payloads.get(0);
             for (String key : b.keySet()) {
-                switch (key) {
-                    case KEY_IS_EXPAND:
-                        if (onTreeNodeListener != null)
-                            onTreeNodeListener.onToggle(b.getBoolean(key), holder);
-                        break;
+                if (KEY_IS_EXPAND.equals(key)) {
+                    if (onTreeNodeListener != null)
+                        onTreeNodeListener.onToggle(b.getBoolean(key), holder);
                 }
             }
         }
@@ -84,7 +84,7 @@ public class TreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             holder.itemView.setPaddingRelative(displayNodes.get(position).getHeight() * padding, 3, 3, 3);
         }else {
@@ -120,8 +120,9 @@ public class TreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         });
         for (TreeViewBinder viewBinder : viewBinders) {
-            if (viewBinder.getLayoutId() == displayNodes.get(position).getContent().getLayoutId())
+            if (viewBinder.getLayoutId() == displayNodes.get(position).getContent().getLayoutId()) {
                 viewBinder.bindView(holder, position, displayNodes.get(position));
+            }
         }
     }
 
