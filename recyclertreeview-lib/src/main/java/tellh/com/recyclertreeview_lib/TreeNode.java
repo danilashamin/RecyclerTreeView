@@ -2,7 +2,6 @@ package tellh.com.recyclertreeview_lib;
 
 
 import androidx.annotation.NonNull;
-import androidx.core.util.ObjectsCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,7 +149,6 @@ public class TreeNode<T> implements Cloneable {
     }
 
 
-
     public boolean isLocked() {
         return isLocked;
     }
@@ -167,11 +165,18 @@ public class TreeNode<T> implements Cloneable {
         isInTheWayOfSearch = inTheWayOfSearch;
     }
 
-    public int getPositionInParentChildList(){
+    public int getPositionInParentChildList() {
         if (parent == null) {
-            return -1;
+            return UNDEFINE;
         }
         return parent.childList.indexOf(this);
+    }
+
+    public boolean isLastElementInParentChildList() {
+        if (parent == null) {
+            return false;
+        }
+        return getPositionInParentChildList() == parent.childList.size() - 1;
     }
 
     public void setRequiredElement(boolean requiredElement) {
