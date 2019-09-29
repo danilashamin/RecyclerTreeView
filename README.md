@@ -1,5 +1,5 @@
 # RecyclerTreeView
-[![](https://jitpack.io/v/TellH/RecyclerTreeView.svg)](https://jitpack.io/#TellH/RecyclerTreeView)</br>
+[![](https://jitpack.io/v/danilashamin/RecyclerTreeView.svg)](https://jitpack.io/#danilashamin/RecyclerTreeView)</br>
 TreeView implement in Android with RecyclerView..
 
 ## Effect
