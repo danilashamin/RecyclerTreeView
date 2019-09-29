@@ -2,6 +2,7 @@ package tellh.com.recyclertreeview_lib;
 
 
 import androidx.annotation.NonNull;
+import androidx.core.util.ObjectsCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,19 +11,21 @@ import java.util.List;
  * Created by tlh on 2016/10/1 :)
  */
 
-public class TreeNode<T extends LayoutItemType> implements Cloneable {
-    private T content;
-    private TreeNode parent;
-    private List<TreeNode> childList;
+public class TreeNode<T> implements Cloneable {
+    private T data;
+    private TreeNode<T> parent;
+    private List<TreeNode<T>> childList;
     private boolean isExpand;
     private boolean isLocked;
+    private boolean isInTheWayOfSearch;
+    private boolean isRequiredElement;
     //the tree high
     private int height = UNDEFINE;
 
     private static final int UNDEFINE = -1;
 
-    public TreeNode(@NonNull T content) {
-        this.content = content;
+    public TreeNode(@NonNull T data) {
+        this.data = data;
         this.childList = new ArrayList<>();
     }
 
@@ -42,26 +45,26 @@ public class TreeNode<T extends LayoutItemType> implements Cloneable {
         return childList == null || childList.isEmpty();
     }
 
-    public void setContent(T content) {
-        this.content = content;
+    public void setData(T data) {
+        this.data = data;
     }
 
-    public T getContent() {
-        return content;
+    public T getData() {
+        return data;
     }
 
-    public List<TreeNode> getChildList() {
+    public List<TreeNode<T>> getChildList() {
         return childList;
     }
 
-    public void setChildList(List<TreeNode> childList) {
+    public void setChildList(List<TreeNode<T>> childList) {
         this.childList.clear();
-        for (TreeNode treeNode : childList) {
+        for (TreeNode<T> treeNode : childList) {
             addChild(treeNode);
         }
     }
 
-    public TreeNode addChild(TreeNode node) {
+    public TreeNode<T> addChild(TreeNode<T> node) {
         if (childList == null)
             childList = new ArrayList<>();
         childList.add(node);
@@ -109,11 +112,11 @@ public class TreeNode<T extends LayoutItemType> implements Cloneable {
         return isExpand;
     }
 
-    public void setParent(TreeNode parent) {
+    public void setParent(TreeNode<T> parent) {
         this.parent = parent;
     }
 
-    public TreeNode getParent() {
+    public TreeNode<T> getParent() {
         return parent;
     }
 
@@ -127,15 +130,60 @@ public class TreeNode<T extends LayoutItemType> implements Cloneable {
         return this;
     }
 
+    public boolean search(TreeNode<T> node, T value, List<TreeNode<T>> track) {
+        if (node == null) return false;
+
+        if (node.data.equals(value)) {
+            node.setRequiredElement(true);
+            track.add(node);
+            return true;
+        }
+
+        for (TreeNode<T> child : node.childList) {
+            if (search(child, value, track)) {
+                track.add(0, node);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+
     public boolean isLocked() {
         return isLocked;
     }
 
+    public boolean isInTheWayOfSearch() {
+        return isInTheWayOfSearch;
+    }
+
+    public boolean isRequiredElement() {
+        return isRequiredElement;
+    }
+
+    public void setInTheWayOfSearch(boolean inTheWayOfSearch) {
+        isInTheWayOfSearch = inTheWayOfSearch;
+    }
+
+    public int getPositionInParentChildList(){
+        if (parent == null) {
+            return -1;
+        }
+        return parent.childList.indexOf(this);
+    }
+
+    public void setRequiredElement(boolean requiredElement) {
+        isRequiredElement = requiredElement;
+    }
+
+    @NonNull
     @Override
     public String toString() {
         return "TreeNode{" +
-                "content=" + this.content +
-                ", parent=" + (parent == null ? "null" : parent.getContent().toString()) +
+                "data=" + this.data +
+                ", parent=" + (parent == null ? "null" : parent.getData().toString()) +
                 ", childList=" + (childList == null ? "null" : childList.toString()) +
                 ", isExpand=" + isExpand +
                 '}';
@@ -143,7 +191,7 @@ public class TreeNode<T extends LayoutItemType> implements Cloneable {
 
     @Override
     protected TreeNode<T> clone() throws CloneNotSupportedException {
-        TreeNode<T> clone = new TreeNode<>(this.content);
+        TreeNode<T> clone = new TreeNode<>(this.data);
         clone.isExpand = this.isExpand;
         return clone;
     }

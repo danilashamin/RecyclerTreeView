@@ -3,7 +3,6 @@ package tellh.com.recyclertreeview;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,17 +12,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import tellh.com.recyclertreeview.bean.Dir;
-import tellh.com.recyclertreeview.bean.File;
-import tellh.com.recyclertreeview.viewbinder.DirectoryNodeBinder;
-import tellh.com.recyclertreeview.viewbinder.FileNodeBinder;
+import tellh.com.recyclertreeview.bean.Department;
+import tellh.com.recyclertreeview.viewbinder.DepartmentViewHolderFactory;
 import tellh.com.recyclertreeview_lib.TreeNode;
 import tellh.com.recyclertreeview_lib.TreeViewAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView rv;
-    private TreeViewAdapter adapter;
+    private TreeViewAdapter<Department> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,70 +31,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        List<TreeNode> nodes = new ArrayList<>();
-        TreeNode<Dir> app = new TreeNode<>(new Dir("app"));
-        nodes.add(app);
-        app.addChild(
-                new TreeNode<>(new Dir("manifests"))
-                        .addChild(new TreeNode<>(new File("AndroidManifest.xml")))
-        );
-        app.addChild(
-                new TreeNode<>(new Dir("java")).addChild(
-                        new TreeNode<>(new Dir("tellh")).addChild(
-                                new TreeNode<>(new Dir("com")).addChild(
-                                        new TreeNode<>(new Dir("recyclertreeview"))
-                                                .addChild(new TreeNode<>(new File("Dir")))
-                                                .addChild(new TreeNode<>(new File("DirectoryNodeBinder")))
-                                                .addChild(new TreeNode<>(new File("File")))
-                                                .addChild(new TreeNode<>(new File("FileNodeBinder")))
-                                                .addChild(new TreeNode<>(new File("TreeViewBinder")))
-                                )
-                        )
-                )
-        );
-        TreeNode<Dir> res = new TreeNode<>(new Dir("res"));
-        nodes.add(res);
-        res.addChild(
-                new TreeNode<>(new Dir("layout")).lock() // lock this TreeNode
-                        .addChild(new TreeNode<>(new File("activity_main.xml")))
-                        .addChild(new TreeNode<>(new File("item_dir.xml")))
-                        .addChild(new TreeNode<>(new File("item_file.xml")))
-        );
-        res.addChild(
-                new TreeNode<>(new Dir("mipmap"))
-                        .addChild(new TreeNode<>(new File("ic_launcher.png")))
-        );
 
+        List<TreeNode<Department>> departments = new ArrayList<>();
+
+        TreeNode<Department> firstRoot = new TreeNode<>(Department.create());
+        TreeNode<Department> firstChild = new TreeNode<>(Department.create());
+        TreeNode<Department> secondChild = new TreeNode<>(Department.create());
+        firstRoot.addChild(firstChild);
+        firstRoot.addChild(secondChild);
+        firstChild.setChildList(Arrays.asList(new TreeNode<>(Department.create()),new TreeNode<>(Department.create()),new TreeNode<>(Department.create())));
+        secondChild.setChildList(Arrays.asList(new TreeNode<>(Department.create()),new TreeNode<>(Department.create()),new TreeNode<>(Department.create())));
+
+        TreeNode<Department> secondRoot = new TreeNode<>(Department.create());
+        TreeNode<Department> thirdChild = new TreeNode<>(Department.create());
+        TreeNode<Department> fourthChild = new TreeNode<>(Department.create());
+        secondRoot.addChild(firstChild);
+        secondRoot.addChild(secondChild);
+        thirdChild.setChildList(Arrays.asList(new TreeNode<>(Department.create()),new TreeNode<>(Department.create()),new TreeNode<>(Department.create())));
+        fourthChild.setChildList(Arrays.asList(new TreeNode<>(Department.create()),new TreeNode<>(Department.create()),new TreeNode<>(Department.create())));
+
+        departments.add(firstRoot);
+        departments.add(secondRoot);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TreeViewAdapter(nodes, Arrays.asList(new FileNodeBinder(), new DirectoryNodeBinder()));
+        adapter = new TreeViewAdapter<>(new DepartmentViewHolderFactory(), departments);
         // whether collapse child nodes when their parent node was close.
 //        adapter.ifCollapseChildWhileCollapseParent(true);
+        adapter.ifCollapseChildWhileCollapseParent(true);
         adapter.setOnTreeNodeListener(new TreeViewAdapter.OnTreeNodeListener() {
             @Override
-            public boolean onClick(TreeNode node, RecyclerView.ViewHolder holder) {
-                if (!node.isLeaf()) {
-                    //Update and toggle the node.
-                    onToggle(!node.isExpand(), holder);
-//                    if (!node.isExpand())
-//                        adapter.collapseBrotherNode(node);
-                }
-                return false;
+            public void onClick(TreeNode node) {
+
             }
 
-            @Override
-            public void onToggle(boolean isExpand, RecyclerView.ViewHolder holder) {
-                DirectoryNodeBinder.ViewHolder dirViewHolder = (DirectoryNodeBinder.ViewHolder) holder;
-                final ImageView ivArrow = dirViewHolder.getIvArrow();
-                int rotateDegree = isExpand ? 90 : -90;
-                ivArrow.animate().rotationBy(rotateDegree)
-                        .start();
-            }
         });
         rv.setAdapter(adapter);
     }
 
     private void initView() {
-        rv = (RecyclerView) findViewById(R.id.rv);
+        rv = findViewById(R.id.rv);
     }
 
 

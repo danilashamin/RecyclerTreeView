@@ -1,6 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- transparent percents:
+    100% — FF   95% — F2   90% — E6   85% — D9   80% — CC   75% — BF   70% — B3   65% — A6   60% — 99   55% — 8C
+    50% — 80   45% — 73   40% — 66   35% — 59   30% — 4D   25% — 40   20% — 33   15% — 26   10% — 1A   5% — 0D   0% — 00 -->
+
+    <!-- base colors -->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#001424</color>
+    <!--<color name="black_light">#333333</color>-->
+    <color name="common_black_20">#33000000</color>
+    <color name="common_black_50">#80000000</color>
+    <color name="black_50">#80000000</color>
+    <color name="red">#e30611</color>
+    <color name="red_dark">#a3001b</color>
+    <color name="red_highlight">#1Ae30611</color>
+    <color name="gray">#6e7782</color>
+
+    <!-- app colors -->
+
+    <color name="ic_launcher_background">#E30610</color>
+
+    <color name="app_primary">@color/red</color>
+    <color name="app_primary_dark">@color/red_dark</color>
+    <color name="app_accent">@color/red</color>
+    <color name="app_control_normal">#d1d1d1</color>
+    <color name="app_control_highlight">@color/red_highlight</color>
+    <color name="app_window_background">@color/white</color>
+    <color name="app_status_bar_default">@color/app_window_background</color>
+
+    <color name="custom_color_swam_dark">#000A12</color>
+    <color name="custom_color_swamp">#001424</color>
+    <color name="custom_color_regent_gray">#9198a0</color>
+    <color name="custom_color_pale_sky">#6e7782</color>
+    <color name="custom_color_ebony_clay">#202d3d</color>
+    <color name="custom_color_athens_gray">#f2f3f7</color>
+    <color name="custom_color_big_stone">#102030</color>
+    <color name="custom_color_dark_athens_gray">#e2e5eb</color>
+    <color name="custom_color_orange_roughy">#e04a17</color>
+    <color name="custom_color_gray_400">#bac1c8</color>
+    <color name="custom_color_gray_300">#bbc1c7</color>
+    <color name="custom_color_swamp_88">#e1001424</color>
+    <color name="custom_color_mine_shaft">#262626</color>
+
+    <!-- containers backgrounds -->
+
+    <color name="bg_splash">@color/white</color>
+    <color name="bg_screen_white">@color/white</color>
+    <color name="bg_screen_gray">#f2f3f7</color>
+    <color name="bg_navbar">@color/bg_screen_white</color>
+    <color name="bg_tabs">@color/bg_navbar</color>
+
+    <!-- common controls colors -->
+
+    <color name="separator_line">#e2e5eb</color>
+
+    <color name="button_bg_disabled">#d0d0d0</color>
+
+    <color name="button_red_bg_active">@color/red_dark</color>
+    <color name="button_red_bg_inactive">@color/red</color>
+    <color name="button_red_bg_disabled">@color/button_bg_disabled</color>
+    <color name="button_red_font">@color/white</color>
+
+    <color name="buttontext_red_font_pressed">@color/red_dark</color>
+    <color name="buttontext_red_font_default">@color/red</color>
+    <color name="buttontext_red_font_disabled">@color/black_50</color>
+
+    <color name="buttontext_swamp_font_pressed">@color/custom_color_swam_dark</color>
+    <color name="buttontext_swamp_font_default">@color/custom_color_swamp</color>
+    <color name="buttontext_swamp_font_disabled">@color/black_50</color>
+
+    <color name="text_black">@color/black</color>
+    <color name="text_caption">@color/gray</color>
+    <color name="text_link">@color/red</color>
+
+    <color name="tab_text_active">@color/red</color>
+    <color name="tab_text_inactive">@color/gray</color>
+    <color name="tab_indicator">@color/red</color>
+
+    <!-- custom colors -->
+
+    <color name="main_navigation_bg">@color/white</color>
+    <color name="main_navigation_active">@color/red</color>
+    <color name="main_navigation_inactive">#9198a0</color>
+
+    <color name="dialog_message_bg">@color/white</color>
+    <color name="dialog_message_text">#8a000000</color>
+
+    <color name="calendar_page_week_default_shift_background">@color/custom_color_athens_gray</color>
+    <color name="calendar_page_week_selected_shift_background">@color/white</color>
+    <color name="calendar_page_week_default_shift_border_color">@color/custom_color_gray_300</color>
+    <color name="calendar_page_week_selected_shift_border_color">@color/red</color>
+    <color name="calendar_page_week_shadow_color">#286e7782</color>
+
+    <color name="bullet_pager_indicator_item_default_color">@color/custom_color_pale_sky</color>
+    <color name="bullet_pager_indicator_item_highlight_color">@color/custom_color_swamp</color>
+
+    <color name="color_orange">#f37f19</color>
+
+    <color name="red_light">#f15642</color>
 </resources>
