@@ -104,6 +104,7 @@ public class TreeViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>> 
                     } else {
                         notifyItemRangeRemoved(positionStart, removeChildNodes(selectedNode, true));
                     }
+                    notifyItemChanged(holder.getLayoutPosition());
                 }
             });
         }
@@ -139,6 +140,7 @@ public class TreeViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>> 
 
                     int positionStart = displayNodes.indexOf(parent) + 1;
                     notifyItemRangeRemoved(positionStart, removeChildNodes(parent, true));
+                    notifyItemChanged(holder.getLayoutPosition());
                 }
             });
         }
