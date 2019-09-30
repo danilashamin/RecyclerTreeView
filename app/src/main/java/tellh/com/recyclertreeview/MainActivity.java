@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         List<TreeNode<Department>> departments = new ArrayList<>();
 
         TreeNode<Department> firstRoot = new TreeNode<>(Department.create());
+        firstRoot.lock();
+        firstRoot.expand();
         TreeNode<Department> firstChild = new TreeNode<>(Department.create());
         TreeNode<Department> secondChild = new TreeNode<>(Department.create());
         firstRoot.addChild(firstChild);
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         secondChild.setChildList(Arrays.asList(new TreeNode<>(Department.create()),new TreeNode<>(Department.create()),new TreeNode<>(Department.create())));
 
         TreeNode<Department> secondRoot = new TreeNode<>(Department.create());
+        secondRoot.lock();
+        secondRoot.expand();
         TreeNode<Department> thirdChild = new TreeNode<>(Department.create());
         TreeNode<Department> fourthChild = new TreeNode<>(Department.create());
         secondRoot.addChild(firstChild);

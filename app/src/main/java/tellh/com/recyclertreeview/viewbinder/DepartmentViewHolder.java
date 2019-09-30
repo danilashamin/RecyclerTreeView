@@ -53,6 +53,18 @@ public class DepartmentViewHolder extends BaseViewHolder<Department> {
 
     @Nullable
     @Override
+    public View getCollapseParentButton() {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public ImageView getCollapseParentArrow() {
+        return null;
+    }
+
+    @Nullable
+    @Override
     public ImageView getExpandableArrow() {
         return btnExpand;
     }

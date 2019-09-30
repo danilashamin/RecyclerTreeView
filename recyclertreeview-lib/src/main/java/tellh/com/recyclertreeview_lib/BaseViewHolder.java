@@ -17,8 +17,14 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
 
     public abstract void bindView(int position, TreeNode<T> node);
 
-    @NonNull
+    @Nullable
     public abstract View getExpandableButton();
+
+    @Nullable
+    public abstract View getCollapseParentButton();
+
+    @Nullable
+    public abstract ImageView getCollapseParentArrow();
 
     @Nullable
     public abstract ImageView getExpandableArrow();

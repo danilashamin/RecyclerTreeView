@@ -1,6 +1,5 @@
 package tellh.com.recyclertreeview_lib;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,45 +74,75 @@ public class TreeViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>> 
 
     @Override
     public void onBindViewHolder(@NonNull final BaseViewHolder<T> holder, int position) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            holder.itemView.setPaddingRelative(displayNodes.get(position).getHeight() * padding, 3, 3, 3);
-        } else {
-            holder.itemView.setPadding(displayNodes.get(position).getHeight() * padding, 3, 3, 3);
-        }
-        holder.getExpandableButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TreeNode<T> selectedNode = displayNodes.get(holder.getLayoutPosition());
-                // Prevent multi-click during the short interval.
-                try {
-                    long lastClickTime = (long) holder.itemView.getTag();
-                    if (System.currentTimeMillis() - lastClickTime < 500)
-                        return;
-                } catch (Exception e) {
+        if (holder.getExpandableButton() != null) {
+
+            holder.getExpandableButton().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TreeNode<T> selectedNode = displayNodes.get(holder.getLayoutPosition());
+
+                    // Prevent multi-click during the short interval.
+                    try {
+                        long lastClickTime = (long) holder.itemView.getTag();
+                        if (System.currentTimeMillis() - lastClickTime < 500)
+                            return;
+                    } catch (Exception e) {
+                        holder.itemView.setTag(System.currentTimeMillis());
+                    }
                     holder.itemView.setTag(System.currentTimeMillis());
+
+                    // This TreeNode was locked to click.
+                    if (selectedNode.isLocked()) return;
+                    boolean isExpand = selectedNode.isExpand();
+
+                    animateArrow(holder.getExpandableArrow(), isExpand);
+
+
+                    int positionStart = displayNodes.indexOf(selectedNode) + 1;
+                    if (!isExpand) {
+                        notifyItemRangeInserted(positionStart, addChildNodes(selectedNode, positionStart));
+                    } else {
+                        notifyItemRangeRemoved(positionStart, removeChildNodes(selectedNode, true));
+                    }
                 }
-                holder.itemView.setTag(System.currentTimeMillis());
+            });
+        }
 
-                if (onTreeNodeListener != null) {
-                    onTreeNodeListener.onClick(selectedNode);
+        if (holder.getCollapseParentButton() != null) {
+            holder.getCollapseParentButton().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TreeNode<T> node = displayNodes.get(holder.getLayoutPosition());
+                    if (node.isRoot()) {
+                        return;
+                    }
+                    TreeNode<T> parent = node.getParent();
+
+                    // Prevent multi-click during the short interval.
+                    try {
+                        long lastClickTime = (long) holder.itemView.getTag();
+                        if (System.currentTimeMillis() - lastClickTime < 500)
+                            return;
+                    } catch (Exception e) {
+                        holder.itemView.setTag(System.currentTimeMillis());
+                    }
+                    holder.itemView.setTag(System.currentTimeMillis());
+
+                    // This TreeNode was locked to click.
+                    if (parent.isLocked()) return;
+                    boolean isExpand = parent.isExpand();
+                    if (!isExpand) {
+                        return;
+                    }
+                    animateArrow(holder.getCollapseParentArrow(), true);
+
+
+                    int positionStart = displayNodes.indexOf(parent) + 1;
+                    notifyItemRangeRemoved(positionStart, removeChildNodes(parent, true));
                 }
-                if (selectedNode.isLeaf())
-                    return;
-                // This TreeNode was locked to click.
-                if (selectedNode.isLocked()) return;
-                boolean isExpand = selectedNode.isExpand();
+            });
+        }
 
-                animateArrow(holder.getExpandableArrow(), isExpand);
-
-
-                int positionStart = displayNodes.indexOf(selectedNode) + 1;
-                if (!isExpand) {
-                    notifyItemRangeInserted(positionStart, addChildNodes(selectedNode, positionStart));
-                } else {
-                    notifyItemRangeRemoved(positionStart, removeChildNodes(selectedNode, true));
-                }
-            }
-        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +156,7 @@ public class TreeViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>> 
     }
 
     private void animateArrow(@Nullable ImageView ivArrow, boolean isExpand) {
-        int rotateDegree = isExpand ? 90 : -90;
+        int rotateDegree = isExpand ? 180 : -180;
         if (ivArrow != null) {
             ivArrow.animate().rotationBy(rotateDegree)
                     .start();
