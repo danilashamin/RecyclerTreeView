@@ -98,7 +98,7 @@ public class TreeViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>> 
                     animateArrow(holder.getExpandableArrow(), isExpand);
 
 
-                    int positionStart = displayNodes.indexOf(selectedNode);
+                    int positionStart = displayNodes.indexOf(selectedNode) + 1;
                     if (!isExpand) {
                         notifyItemRangeInserted(positionStart, addChildNodes(selectedNode, positionStart));
                     } else {
@@ -137,7 +137,7 @@ public class TreeViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>> 
                     animateArrow(holder.getCollapseParentArrow(), true);
 
 
-                    int positionStart = displayNodes.indexOf(parent);
+                    int positionStart = displayNodes.indexOf(parent) + 1;
                     notifyItemRangeRemoved(positionStart, removeChildNodes(parent, true));
                 }
             });
