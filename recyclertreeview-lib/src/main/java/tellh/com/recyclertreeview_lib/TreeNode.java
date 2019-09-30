@@ -40,6 +40,13 @@ public class TreeNode<T> implements Cloneable {
         return parent == null;
     }
 
+    public boolean isParentRoot(){
+        if(isRoot()){
+            return false;
+        }
+        return getParent().isRoot();
+    }
+
     public boolean isLeaf() {
         return childList == null || childList.isEmpty();
     }
