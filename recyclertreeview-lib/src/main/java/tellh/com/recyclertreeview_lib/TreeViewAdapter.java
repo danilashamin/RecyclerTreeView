@@ -138,9 +138,11 @@ public class TreeViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>> 
                     animateArrow(holder.getCollapseParentArrow(), true);
 
 
-                    int positionStart = displayNodes.indexOf(parent) + 1;
+                    int parentPosition = displayNodes.indexOf(parent);
+                    int positionStart = parentPosition + 1;
                     notifyItemRangeRemoved(positionStart, removeChildNodes(parent, true));
                     notifyItemChanged(holder.getLayoutPosition());
+                    notifyItemChanged(parentPosition);
                 }
             });
         }
