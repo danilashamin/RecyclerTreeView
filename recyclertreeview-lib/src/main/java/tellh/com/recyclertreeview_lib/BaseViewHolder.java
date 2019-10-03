@@ -27,6 +27,9 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
     public abstract ImageView getCollapseParentArrow();
 
     @Nullable
+    public abstract View getClickableView();
+
+    @Nullable
     public abstract ImageView getExpandableArrow();
 
     protected <V extends View> V findViewById(@IdRes int id) {

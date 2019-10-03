@@ -65,6 +65,12 @@ public class DepartmentViewHolder extends BaseViewHolder<Department> {
 
     @Nullable
     @Override
+    public View getClickableView() {
+        return itemView;
+    }
+
+    @Nullable
+    @Override
     public ImageView getExpandableArrow() {
         return btnExpand;
     }

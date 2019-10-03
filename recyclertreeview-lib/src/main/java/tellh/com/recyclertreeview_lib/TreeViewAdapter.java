@@ -147,15 +147,16 @@ public class TreeViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>> 
             });
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onTreeNodeListener != null) {
-                    onTreeNodeListener.onClick(displayNodes.get(holder.getLayoutPosition()));
+        if (holder.getClickableView() != null) {
+            holder.getClickableView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onTreeNodeListener != null) {
+                        onTreeNodeListener.onClick(displayNodes.get(holder.getLayoutPosition()));
+                    }
                 }
-            }
-        });
-
+            });
+        }
         holder.bindView(position, displayNodes.get(position));
     }
 
